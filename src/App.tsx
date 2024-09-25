@@ -1,11 +1,6 @@
-import { Header } from './components/header'
-import { Home } from './pages/home'
+import { RouterProvider } from 'react-router-dom'
+import { router } from './routes'
 
 export function App() {
-  return (
-    <div className="flex flex-col bg-zinc-950 h-screen antialiased">
-      <Header />
-      <Home />
-    </div>
-  )
+  return <RouterProvider router={router} />
 }
