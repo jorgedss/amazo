@@ -1,3 +1,11 @@
+import { Header } from './components/header'
+import { Home } from './pages/home'
+
 export function App() {
-	return <h1 className="bg-black text-muted-foreground"> Teste</h1>;
+  return (
+    <div className="flex flex-col bg-zinc-950 h-screen antialiased">
+      <Header />
+      <Home />
+    </div>
+  )
 }
