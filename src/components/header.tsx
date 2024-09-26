@@ -1,7 +1,15 @@
+import { SquareUser } from 'lucide-react'
+
 export function Header() {
   return (
-    <div className="flex justify-center items-end bg-emerald-950 h-20">
-      <p className="pb-4 font-mono text-2xl text-white"> amazo</p>
+    <div className="justify-center items-center grid grid-cols-3 bg-emerald-400 px-4 h-20">
+      <div />
+      <div className="flex justify-center items-centerfont-bold font-mono text-4xl text-white leading-none tracking-normal">
+        amazo
+      </div>
+      <div className="flex justify-end">
+        <SquareUser className="hover:bg-emerald-50 rounded-sm w-8 h-8 text-emerald-50 hover:text-emerald-400" />
+      </div>
     </div>
   )
 }

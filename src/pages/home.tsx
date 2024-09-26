@@ -1,11 +1,20 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { ChevronUp } from 'lucide-react'
 
 export function Home() {
   return (
-    <div className="flex flex-grow justify-center items-center gap-4 p-4 w-full">
-      <Input className="border-emerald-800 focus:border-emerald-400 bg-emerald-900/50 max-w-80 text-white focus:outline-none focus:ring-1" />
-      <Button variant="generate">Gerar</Button>
+    <div className="flex flex-grow justify-center items-center gap-4 p-4">
+      <Input
+        placeholder="Digite o assunto"
+        className="bg-emerald-600/80 shadow-md px-6 ring-1 ring-transparent focus:ring-emerald-600 max-w-md h-14 text-white focus:outline-none rounded-full text-lg placeholder:text-emerald-50/70"
+      />
+      <Button
+        variant="generate"
+        className="bg-emerald-600/80 shadow-md p-0 rounded-full w-10 h-10"
+      >
+        <ChevronUp className="w-6 h-6" />
+      </Button>
     </div>
   )
 }
