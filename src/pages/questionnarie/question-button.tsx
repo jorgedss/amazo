@@ -2,12 +2,21 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Alternative } from './alternative'
+import { Separator } from '@radix-ui/react-separator'
 
 export interface QuestionPops {
   id: number
+  question: string
+  options: string[]
+  answer: string
 }
 
-export function QuestionButton({ id }: QuestionPops) {
+export function QuestionButton({
+  id,
+  question,
+  options,
+  answer,
+}: QuestionPops) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -20,22 +29,20 @@ export function QuestionButton({ id }: QuestionPops) {
       </DialogTrigger>
 
       <DialogContent className="bg-gray-100 mr-10 w-[90vw] h-[90vh] outline-none">
-        <div className="space-x-4 grid grid-cols-2">
-          <div className="flex items-center p-4 text-foreground text-justify">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe
-            deserunt in quibusdam commodi iusto libero non omnis rem molestias
-            repudiandae fuga, sed magni, quidem minus minima ipsum, architecto
-            sint quia.
+        <div className="grid grid-cols-2">
+          <div className="flex items-center gap-4 mr-2 p-4 pr-0 w-full text-foreground text-justify">
+            <span className="flex flex-1">{question}</span>
+            <Separator
+              orientation="vertical"
+              className="bg-emerald-500 w-px h-full max-h-96"
+            />
           </div>
 
           <div className="flex flex-col justify-between">
-            <div className="flex flex-col flex-grow gap-2 border-emerald-600 p-2 border-l-2">
-              <Alternative content="Banana" />
-              <Alternative content="Maçã" />
-              <Alternative content="Morango" />
-              <Alternative content="Melancia" />
-              <Alternative content="Melão" />
-              <Alternative content="Uva" />
+            <div className="flex flex-col flex-grow justify-center pl-4">
+              {options.map(option => {
+                return <Alternative key={option} content={option} />
+              })}
             </div>
 
             <div className="flex justify-end gap-2">

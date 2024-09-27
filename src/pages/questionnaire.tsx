@@ -1,7 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { QuestionButton } from './questionnarie/question-button'
+import { useContext } from 'react'
+import { QuestionnarieContext } from '@/context/questionnarie-context'
 
 export function Questionnaire() {
+  const { questionnarieData } = useContext(QuestionnarieContext)
   return (
     <div className="flex flex-col flex-grow justify-between p-8 w-full">
       <div className="flex items-center w-full borde">
@@ -19,9 +22,16 @@ export function Questionnaire() {
         </div>
       </div>
       <div className="gap-4 grid grid-cols-3 py-4">
-        {Array.from({ length: 6 }).map((_, i) => {
-          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-          return <QuestionButton key={i} id={i + 1} />
+        {questionnarieData.map(question => {
+          return (
+            <QuestionButton
+              key={question.id}
+              id={question.id}
+              question={question.question}
+              options={question.options}
+              answer={question.answer}
+            />
+          )
         })}
       </div>
     </div>
