@@ -1,8 +1,14 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { QuestionnarieContext } from '@/context/questionnarie-context'
 import { ChevronUp } from 'lucide-react'
+import { useContext } from 'react'
 
 export function Home() {
+  const { questionnarieData } = useContext(QuestionnarieContext)
+
+  console.log(questionnarieData)
+
   return (
     <div className="flex flex-grow justify-center items-center gap-4 p-4">
       <Input

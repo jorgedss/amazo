@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { QuestionButton } from './question-button'
+import { QuestionButton } from './questionnarie/question-button'
 
 export function Questionnaire() {
   return (
