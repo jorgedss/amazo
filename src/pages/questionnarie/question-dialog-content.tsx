@@ -1,37 +1,25 @@
-import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { DialogContent } from '@/components/ui/dialog'
+import { Separator } from '@/components/ui/separator'
 import { Alternative } from './alternative'
-import { Separator } from '@radix-ui/react-separator'
+import { Button } from '@/components/ui/button'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useContext } from 'react'
+import { QuestionnarieContext } from '@/context/questionnarie-context'
 
-export interface QuestionPops {
+interface QuestionDialogContentProps {
   id: number
-  question: string
-  options: string[]
-  answer: string
 }
 
-export function QuestionButton({
-  id,
-  question,
-  options,
-  answer,
-}: QuestionPops) {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          id="question"
-          className="justify-start items-start bg-emerald-700 hover:bg-emerald-500 rounded-md h-40 font-medium text-4xl text-muted tracking-wide"
-        >
-          Tema {id}
-        </Button>
-      </DialogTrigger>
+export function QuestionDialogContent({ id }: QuestionDialogContentProps) {
+  const { questionnarieData } = useContext(QuestionnarieContext)
 
-      <DialogContent className="bg-gray-100 mr-10 w-[90vw] h-[90vh] outline-none">
+  const content = questionnarieData.find(question => question.id === id)
+  return (
+    <DialogContent className="bg-gray-100 mr-10 w-[90vw] h-[90vh] outline-none">
+      {content && (
         <div className="grid grid-cols-2">
           <div className="flex items-center gap-4 mr-2 p-4 pr-0 w-full text-foreground text-justify">
-            <span className="flex flex-1">{question}</span>
+            <span className="flex flex-1">{content.question}</span>
             <Separator
               orientation="vertical"
               className="bg-emerald-500 w-px h-full max-h-96"
@@ -40,7 +28,7 @@ export function QuestionButton({
 
           <div className="flex flex-col justify-between">
             <div className="flex flex-col flex-grow justify-center pl-4">
-              {options.map(option => {
+              {content.options.map(option => {
                 return <Alternative key={option} content={option} />
               })}
             </div>
@@ -60,7 +48,7 @@ export function QuestionButton({
             </div>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      )}
+    </DialogContent>
   )
 }
