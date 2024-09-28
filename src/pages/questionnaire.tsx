@@ -5,10 +5,16 @@ import { QuestionnarieContext } from '@/context/questionnarie-context'
 
 export function Questionnaire() {
   const { questionnarieData } = useContext(QuestionnarieContext)
+
+  //const [modalIsOpen, setModalOpen] = useState(false)
+
   return (
-    <div className="flex flex-col flex-grow justify-between p-8 w-full">
-      <div className="flex items-center w-full borde">
-        <span className="flex justify-between items-center w-full font-semibold text-5xl text-emerald-600 tracking-tight">
+    <div className="flex flex-col flex-grow justify-between p-8">
+      <div className="flex items-center">
+        <span
+          style={{ contentVisibility: 'auto' }}
+          className="flex flex-1 items-center font-semibold text-5xl text-emerald-600"
+        >
           Nome do assunto
         </span>
 
@@ -21,6 +27,7 @@ export function Questionnaire() {
           </Button>
         </div>
       </div>
+
       <div className="gap-4 grid grid-cols-3 py-4">
         {questionnarieData.map(question => {
           return (
