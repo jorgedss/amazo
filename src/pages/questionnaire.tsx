@@ -10,7 +10,7 @@ export function Questionnaire() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const maxIndex = questionnarieData.length - 1
-  const content = questionnarieData[currentId]
+  const content = questionnarieData.find(question => question.id === currentId)
 
   function handleSetCurrentId(id: number) {
     setCurrentId(id)
