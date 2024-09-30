@@ -10,7 +10,7 @@ interface QuestionnaireContextType {
   questionnarieData: QuestionDataTypes[]
 }
 
-interface QuestionDataTypes {
+export interface QuestionDataTypes {
   id: number
   question: string
   options: string[]
@@ -32,7 +32,6 @@ export function QuestionnarieContextProvider({
     const response = await api.get<QuestionDataTypes[]>('/questions')
     setQuestionnarieData(response.data)
   }
-
   useEffect(() => {
     loadQuestionnarieData()
   }, [])

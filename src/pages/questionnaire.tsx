@@ -1,15 +1,20 @@
 import { Button } from '@/components/ui/button'
 import { useContext, useState } from 'react'
 import { QuestionnarieContext } from '@/context/questionnarie-context'
-import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog } from '@/components/ui/dialog'
 import { QuestionDialogContent } from './questionnarie/question-dialog-content'
 
 export function Questionnaire() {
   const { questionnarieData } = useContext(QuestionnarieContext)
-  const [dialogContent, setDialogContent] = useState(0)
+  const [currentId, setCurrentId] = useState(0)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  function handleSetQuestionContent(id: number) {
-    setDialogContent(id)
+  const maxIndex = questionnarieData.length - 1
+  const content = questionnarieData[currentId]
+
+  function handleSetCurrentId(id: number) {
+    setCurrentId(id)
+    setIsDialogOpen(true)
   }
 
   return (
@@ -30,21 +35,25 @@ export function Questionnaire() {
       </div>
 
       <div className="gap-4 grid grid-cols-3 py-4">
-        <Dialog>
-          {questionnarieData.map((question, i) => {
-            return (
-              <DialogTrigger asChild key={question.id}>
-                <Button
-                  onClick={() => handleSetQuestionContent(question.id)}
-                  className="justify-start items-start bg-emerald-700 hover:bg-emerald-500 rounded-md h-40 font-medium text-4xl text-muted tracking-wide"
-                >
-                  Questão {i + 1}
-                </Button>
-              </DialogTrigger>
-            )
-          })}
+        {questionnarieData.map((question, i) => {
+          return (
+            <Button
+              key={question.id}
+              onClick={() => handleSetCurrentId(question.id)}
+              className="justify-start items-start bg-emerald-700 hover:bg-emerald-500 rounded-md h-40 font-medium text-4xl text-muted tracking-wide"
+            >
+              Questão {i + 1}
+            </Button>
+          )
+        })}
 
-          <QuestionDialogContent id={dialogContent} />
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <QuestionDialogContent
+            currentId={currentId}
+            maxIndex={maxIndex}
+            content={content}
+            handleSetCurrentId={handleSetCurrentId}
+          />
         </Dialog>
       </div>
     </div>
