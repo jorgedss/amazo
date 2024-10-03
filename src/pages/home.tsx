@@ -34,7 +34,7 @@ export function Home() {
 
       <div className="flex-grow grid grid-cols-6">
         <div className="col-span-2">Implementação futura</div>
-        <div className="justify-center items-center gap-8 border-2 border-orange-900-600 border-slate-400/40 grid grid-cols-3 col-span-4 bg-slate-100 shadow-lg p-8 rounded-lg">
+        <div className="justify-center items-center gap-8 border-2 border-orange-900-600 border-slate-400 grid grid-cols-3 col-span-4 bg-slate-100 shadow-lg p-8 border-opacity-30 rounded-lg">
           {questionnarieData.map((question, i) => {
             const colorClasses = [
               'bg-pink-200 border-pink-400',
@@ -56,7 +56,6 @@ export function Home() {
                 <Button
                   variant="ghost"
                   onClick={() => handleSetCurrentId(question.id)}
-                  className="text-muted-foreground"
                 >
                   Responder
                 </Button>
