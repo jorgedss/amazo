@@ -56,6 +56,7 @@ export function Home() {
                 <Button
                   variant="ghost"
                   onClick={() => handleSetCurrentId(question.id)}
+                  className="rounded-t-none hover:rounded-2xl hover:rounded-t-none text-zinc-800/50 hover:text-zinc-800"
                 >
                   Responder
                 </Button>

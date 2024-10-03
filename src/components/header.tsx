@@ -2,8 +2,8 @@ import { SquareUser } from 'lucide-react'
 
 export function Header() {
   return (
-    <div className="justify-center items-center grid grid-cols-3 bg-emerald-400 px-4 h-20">
-      <div />
+    <div className="justify-center items-center grid grid-cols-3 bg-emerald-400 px-8 h-20">
+      <div /> {/*Para o grid*/}
       <div className="flex justify-center items-centerfont-bold font-mono text-4xl text-white leading-none tracking-normal">
         amazo
       </div>
