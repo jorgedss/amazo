@@ -23,7 +23,7 @@ export function Home() {
     <div className="flex flex-col flex-grow justify-between space-y-20 p-8 w-full">
       <div className="flex items-center w-full borde">
         <span className="flex justify-between items-center w-full font-semibold text-5xl text-slate-800 tracking-tight">
-          Meus painel
+          Meu painel
         </span>
 
         <Button variant="newContent" className="flex items-center gap-2">
