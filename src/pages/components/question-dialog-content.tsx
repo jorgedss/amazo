@@ -2,15 +2,18 @@ import { DialogContent } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import type { QuestionDataTypes } from '@/context/questionnarie-context'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import {
+  CardContext,
+  type QuestionTypes,
+} from '@/context/questionnarie-context'
 
 interface QuestionDialogContentProps {
-  currentId: number
-  handleSetCurrentId: (id: number) => void
+  currentId: string
+  handleSetCurrentId: (id: string) => void
   maxIndex: number
-  content: QuestionDataTypes | undefined
+  content: QuestionTypes | undefined
 }
 
 export function QuestionDialogContent({
@@ -35,12 +38,25 @@ export function QuestionDialogContent({
     }
   }
 
+  const { questionnarieData } = useContext(CardContext)
+
+  if (!questionnarieData) {
+    return null
+  }
+
+  // index da questão atual para usar nos botões de paginação
+  const currentIndexQuestion = questionnarieData.questions.findIndex(
+    question => question.questionId === currentId
+  )
+
   return (
     <DialogContent className="bg-gray-100 mr-10 w-[90vw] h-[90vh] outline-none">
       {content && (
         <div className="grid grid-cols-2">
           <div className="flex items-center gap-4 mr-2 p-4 pr-0 w-full text-foreground text-justify">
-            <span className="flex flex-1">{content.question}</span>
+            <span className="flex flex-1 text-2xl">
+              {content.questionContent}
+            </span>
             <Separator
               orientation="vertical"
               className="bg-emerald-500 w-px h-full max-h-96"
@@ -53,8 +69,8 @@ export function QuestionDialogContent({
               onValueChange={setSelectedValue}
               className="flex flex-grow justify-center items-center pl-4"
             >
-              <div className="flex flex-col w-full">
-                {content.options.map((option, index) => {
+              <div className="flex flex-col mt-16 w-full">
+                {content.optionsToChoice.map((option, index) => {
                   const optionId = `option-${index}`
                   return (
                     <label
@@ -89,8 +105,13 @@ export function QuestionDialogContent({
                   variant="generate"
                   size="sm"
                   className="border-0"
-                  onClick={() => handleSetCurrentId(Number(currentId) - 1)}
-                  disabled={currentId === 0}
+                  onClick={() =>
+                    handleSetCurrentId(
+                      questionnarieData.questions[currentIndexQuestion - 1]
+                        .questionId
+                    )
+                  }
+                  disabled={currentIndexQuestion === 0}
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </Button>
@@ -99,8 +120,13 @@ export function QuestionDialogContent({
                   variant="generate"
                   size="sm"
                   className="border-0"
-                  onClick={() => handleSetCurrentId(Number(currentId) + 1)}
-                  disabled={currentId === maxIndex}
+                  onClick={() =>
+                    handleSetCurrentId(
+                      questionnarieData.questions[currentIndexQuestion + 1]
+                        .questionId
+                    )
+                  }
+                  disabled={currentIndexQuestion === maxIndex}
                 >
                   <ChevronRight className="w-4 h-4" />
                 </Button>

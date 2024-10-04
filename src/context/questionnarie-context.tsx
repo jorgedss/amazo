@@ -2,43 +2,61 @@ import { api } from '@/lib/axios'
 import { createContext, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 
-interface QuestionnarieProviderProps {
+interface CardProviderProps {
   children: ReactNode
 }
 
-interface QuestionnaireContextType {
-  questionnarieData: QuestionDataTypes[]
+interface CardContextType {
+  questionnarieData: CardDataResponse | null
+  cardSummary: CardSummaryResponse | undefined
 }
 
-export interface QuestionDataTypes {
-  id: number
-  question: string
-  options: string[]
+export interface QuestionTypes {
+  questionId: string
+  questionContent: string
+  optionsToChoice: string[]
   answer: string
 }
 
-export const QuestionnarieContext = createContext(
-  {} as QuestionnaireContextType
-)
+export interface CardDataResponse {
+  cardId: string
+  questions: QuestionTypes[]
+}
+export interface CardSummary {
+  id: string
+  theme: string
+}
 
-export function QuestionnarieContextProvider({
-  children,
-}: QuestionnarieProviderProps) {
-  const [questionnarieData, setQuestionnarieData] = useState<
-    QuestionDataTypes[]
-  >([])
+type CardSummaryResponse = CardSummary[]
 
-  async function loadQuestionnarieData() {
-    const response = await api.get<QuestionDataTypes[]>('/questions')
-    setQuestionnarieData(response.data)
+export const CardContext = createContext({} as CardContextType)
+
+export function CardContextProvider({ children }: CardProviderProps) {
+  const [questionnarieData, setCardData] = useState<CardDataResponse | null>(
+    null
+  )
+  const [cardSummary, setCardSummary] = useState<CardSummaryResponse>([])
+
+  async function loadCardData() {
+    const response = await api.get<CardDataResponse>('/cards/TBJSQ')
+    setCardData(response.data)
+    //console.log(response.data.questions)
   }
+
+  async function loadCardSummary() {
+    const response = await api.get('/cardSummary')
+    setCardSummary(response.data)
+  }
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    loadQuestionnarieData()
+    loadCardData()
+    loadCardSummary()
   }, [])
 
   return (
-    <QuestionnarieContext.Provider value={{ questionnarieData }}>
+    <CardContext.Provider value={{ questionnarieData, cardSummary }}>
       {children}
-    </QuestionnarieContext.Provider>
+    </CardContext.Provider>
   )
 }

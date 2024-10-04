@@ -1,23 +1,31 @@
 import { Button } from '@/components/ui/button'
 import { useContext, useState } from 'react'
-import { QuestionnarieContext } from '@/context/questionnarie-context'
 import { Dialog } from '@/components/ui/dialog'
 import { QuestionDialogContent } from './components/question-dialog-content'
-import { Plus } from 'lucide-react'
+import { Loader2, Plus } from 'lucide-react'
 import { Card } from './components/card'
+import { CardContext } from '@/context/questionnarie-context'
 
 export function Home() {
-  const { questionnarieData } = useContext(QuestionnarieContext)
-  const [currentId, setCurrentId] = useState(0)
+  const { questionnarieData, cardSummary } = useContext(CardContext)
+  const [currentId, setCurrentId] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  const maxIndex = questionnarieData.length - 1
-  const content = questionnarieData.find(question => question.id === currentId)
+  if (!questionnarieData || !cardSummary) {
+    return <Loader2 className="w-8 h-8 text-muted-foreground animate-spin" />
+  }
 
-  function handleSetCurrentId(id: number) {
+  // define o id da questão atual a ser exibida pelo dialogContent
+  function handleSetCurrentId(id: string) {
     setCurrentId(id)
     setIsDialogOpen(true)
   }
+
+  const CurrentQuestion = questionnarieData.questions.find(
+    question => question.questionId === currentId
+  )
+
+  const maxIndex = questionnarieData.questions.length - 1
 
   return (
     <div className="flex flex-col flex-grow justify-between space-y-20 p-8 w-full">
@@ -35,7 +43,7 @@ export function Home() {
       <div className="flex-grow grid grid-cols-6">
         <div className="col-span-2">Implementação futura</div>
         <div className="justify-center items-center gap-8 border-2 border-orange-900-600 border-slate-400 grid grid-cols-3 col-span-4 bg-slate-100 shadow-lg p-8 border-opacity-30 rounded-lg">
-          {questionnarieData.map((question, i) => {
+          {cardSummary.map((card, i) => {
             const colorClasses = [
               'bg-pink-200 border-pink-400',
               'bg-purple-200 border-purple-400',
@@ -49,13 +57,14 @@ export function Home() {
             ]
             return (
               <Card
-                key={question.id}
+                key={card.id}
                 colorClasses={colorClasses[i]}
-                themeContent={`Tema ${question.id + 1}`}
+                themeContent={`Tema ${i + 1}`}
               >
                 <Button
+                  value={card.id}
                   variant="ghost"
-                  onClick={() => handleSetCurrentId(question.id)}
+                  //onClick={() => handleSetCurrentId(question.questionId)}
                   className="rounded-t-none hover:rounded-2xl hover:rounded-t-none text-zinc-800/50 hover:text-zinc-800"
                 >
                   Responder
@@ -69,7 +78,7 @@ export function Home() {
           <QuestionDialogContent
             currentId={currentId}
             maxIndex={maxIndex}
-            content={content}
+            content={CurrentQuestion}
             handleSetCurrentId={handleSetCurrentId}
           />
         </Dialog>
