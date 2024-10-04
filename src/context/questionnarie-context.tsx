@@ -22,9 +22,20 @@ export interface CardDataResponse {
   cardId: string
   questions: QuestionTypes[]
 }
+
 export interface CardSummary {
   id: string
   theme: string
+  color:
+    | 'pink'
+    | 'purple'
+    | 'blue'
+    | 'green'
+    | 'lime'
+    | 'yellow'
+    | 'orange'
+    | 'red'
+    | 'default'
 }
 
 type CardSummaryResponse = CardSummary[]
