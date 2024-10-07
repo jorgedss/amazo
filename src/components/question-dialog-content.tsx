@@ -45,9 +45,11 @@ export function QuestionDialogContent({
   }
 
   // index da questão atual para usar nos botões de paginação
-  const currentIndexQuestion = questionnarieData.questions.findIndex(
-    question => question.questionId === currentId
-  )
+  // const currentIndexQuestion = questionnarieData.questions.findIndex(
+  //   question => question.questionId === currentId
+  // )
+
+  const currentIndexQuestion = 2
 
   return (
     <DialogContent className="bg-gray-100 mr-10 w-[90vw] h-[90vh] outline-none">

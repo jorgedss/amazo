@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 import { tv, type VariantProps } from 'tailwind-variants'
 
 const cardStyles = tv({
-  base: 'relative flex flex-col justify-between rounded-2xl h-40 border-opacity-30 shadow-lg border-2',
+  base: ' flex flex-col justify-between rounded-2xl h-40 w-52  border-opacity-30 shadow-lg border-2',
   variants: {
     color: {
       pink: 'bg-pink-200 border-pink-400',

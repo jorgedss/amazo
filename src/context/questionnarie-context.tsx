@@ -7,7 +7,7 @@ interface CardProviderProps {
 }
 
 interface CardContextType {
-  questionnarieData: CardDataResponse | null
+  questionnarieData: CardDataResponse[]
   cardSummary: CardSummaryResponse | undefined
 }
 
@@ -19,7 +19,7 @@ export interface QuestionTypes {
 }
 
 export interface CardDataResponse {
-  cardId: string
+  id: string
   questions: QuestionTypes[]
 }
 
@@ -43,13 +43,11 @@ type CardSummaryResponse = CardSummary[]
 export const CardContext = createContext({} as CardContextType)
 
 export function CardContextProvider({ children }: CardProviderProps) {
-  const [questionnarieData, setCardData] = useState<CardDataResponse | null>(
-    null
-  )
+  const [questionnarieData, setCardData] = useState<CardDataResponse[]>([])
   const [cardSummary, setCardSummary] = useState<CardSummaryResponse>([])
 
   async function loadCardData() {
-    const response = await api.get<CardDataResponse>('/cards/TBJSQ')
+    const response = await api.get<CardDataResponse[]>('/cards')
     setCardData(response.data)
     //console.log(response.data.questions)
   }
