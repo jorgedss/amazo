@@ -7,7 +7,7 @@ export function Home() {
   return (
     <div className="flex flex-col flex-grow justify-between space-y-20 p-8 w-full">
       <div className="flex items-center w-full">
-        <span className="flex justify-between items-center w-full font-semibold text-5xl text-slate-800 tracking-tight">
+        <span className="flex justify-between items-center w-full font-bold text-3xl text-violet-900 tracking-tighter">
           Meu painel
         </span>
 

@@ -37,9 +37,9 @@ export function Questionnarie() {
   return (
     <div className="flex-grow justify-end-end grid grid-cols-6">
       <div className="col-span-2">Implementação futura</div>
-      <div className="justify-center items-center gap-4 border-2 border-gray-900 grid grid-cols-3 col-span-4 bg-gray-400/10 shadow-lg ml-auto p-8 border-opacity-30 rounded-lg max-w-3xl max-h-[400px]">
-        {cardSummary.map((card, i) => (
-          <Card key={card.id} color={card.color} themeContent={`Tema ${i + 1}`}>
+      <div className="justify-center items-center gap-4 border-2 border-violet-900 grid grid-cols-3 col-span-4 bg-violet-400/10 shadow-lg ml-auto p-8 border-opacity-30 rounded-lg max-w-3xl max-h-[400px]">
+        {cardSummary.map(card => (
+          <Card key={card.id} color={card.color} themeContent={card.theme}>
             <Button
               value={card.id}
               variant="ghost"

@@ -1,9 +1,9 @@
 {
   "cardSummary": [
-    { "id": "TBJSQ", "tema": "Matemática e Geografia", "color": "pink" },
-    { "id": "WIWMV", "tema": "Ciências e Matemática", "color": "purple" },
-    { "id": "NSJKB", "tema": "Ciências e Literatura", "color": "blue" },
-    { "id": "JTRLD", "tema": "História e Ciências", "color": "green" }
+    { "id": "TBJSQ", "theme": "Matemática e Geografia", "color": "pink" },
+    { "id": "WIWMV", "theme": "Ciências e Matemática", "color": "purple" },
+    { "id": "NSJKB", "theme": "Ciências e Literatura", "color": "blue" },
+    { "id": "JTRLD", "theme": "História e Ciências", "color": "green" }
   ],
   "cards": [
     {

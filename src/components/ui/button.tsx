@@ -21,7 +21,7 @@ const buttonVariants = cva(
         generate:
           'bg-emerald-500 text-white hover:bg-emerald-800 border border-emerald-700 hover:border-emerald-900',
         newContent:
-          'bg-orange-500 hover:bg-orange-600 font-semibold hover:text-white text-gray-100',
+          'bg-emerald-500 hover:bg-emerald-600 font-semibold hover:text-white text-gray-100',
       },
       size: {
         default: 'h-10 px-4 py-2',

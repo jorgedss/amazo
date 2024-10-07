@@ -32,7 +32,7 @@ interface CardProps extends VariantProps<typeof cardStyles> {
 export function Card({ themeContent, children, color }: CardProps) {
   return (
     <motion.div whileHover={{ scale: 1.1 }} className={cardStyles({ color })}>
-      <span className="flex flex-col gap-1 px-8 py-4 font-medium text-2xl text-gray-800/70">
+      <span className="flex flex-col gap-1 px-8 py-4 font-medium text-gray-800/70 text-xl">
         {themeContent}
 
         <Separator className="bg-gray-900/60" />
