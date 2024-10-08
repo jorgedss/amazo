@@ -9,7 +9,9 @@ import type { CardDataResponse } from '@/context/questionnarie-context'
 
 export function Questionnarie() {
   const { cardSummary, questionnarieData } = useContext(CardContext)
+
   const [currentCard, setCurrentCard] = useState<CardDataResponse>()
+  const [currentQuestionId, setCurrentQuestionId] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   // Carrega o primeiro id de questão quando o currentCard é atualizado
@@ -29,6 +31,14 @@ export function Questionnarie() {
     )
     setCurrentCard(selectedCard)
   }
+  function handleSetCurrentQuestionId(id: string) {
+    setCurrentQuestionId(id)
+  }
+
+  const CurrentQuestion = currentCard?.questions.find(
+    question => question.questionId === currentQuestionId
+  )
+  // Index da questão atual
 
   const maxIndex = currentCard?.questions.length
     ? currentCard.questions.length - 1
@@ -56,10 +66,10 @@ export function Questionnarie() {
       {currentCard && (
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <QuestionDialogContent
-            currentId={currentCard.questions[0].questionId} // Sempre passa o ID da primeira questão
             maxIndex={maxIndex}
-            content={currentCard.questions[0]} // Renderiza a primeira questão
-            handleSetCurrentId={() => {}} // lógica para trocar de questão
+            currentCard={currentCard}
+            content={CurrentQuestion ?? currentCard.questions[0]} // Renderiza a primeira questão
+            handleSetCurrentId={handleSetCurrentQuestionId} // lógica para trocar de questão
           />
         </Dialog>
       )}

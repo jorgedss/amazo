@@ -3,24 +3,23 @@ import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { useContext, useEffect, useState } from 'react'
-import {
-  CardContext,
-  type QuestionTypes,
-} from '@/context/questionnarie-context'
+import { useEffect, useState } from 'react'
+
+import type { QuestionTypes } from '@/context/questionnarie-context'
+import type { CardDataResponse } from '@/context/questionnarie-context'
 
 interface QuestionDialogContentProps {
-  currentId: string
   handleSetCurrentId: (id: string) => void
   maxIndex: number
   content: QuestionTypes | undefined
+  currentCard: CardDataResponse
 }
 
 export function QuestionDialogContent({
-  currentId,
   handleSetCurrentId,
   content,
   maxIndex,
+  currentCard,
 }: QuestionDialogContentProps) {
   const [selectedValue, setSelectedValue] = useState('')
 
@@ -28,7 +27,7 @@ export function QuestionDialogContent({
   useEffect(() => {
     // Resetar a seleção quando o conteúdo mudar
     setSelectedValue('')
-  }, [content, currentId])
+  }, [content])
 
   const handleSubmit = () => {
     if (selectedValue === content?.answer) {
@@ -38,18 +37,10 @@ export function QuestionDialogContent({
     }
   }
 
-  const { questionnarieData } = useContext(CardContext)
-
-  if (!questionnarieData) {
-    return null
-  }
-
-  // index da questão atual para usar nos botões de paginação
-  // const currentIndexQuestion = questionnarieData.questions.findIndex(
-  //   question => question.questionId === currentId
-  // )
-
-  const currentIndexQuestion = 2
+  const currentIndexQuestion = currentCard?.questions.findIndex(
+    question => question.questionId === content?.questionId
+  )
+  console.log(currentIndexQuestion)
 
   return (
     <DialogContent className="bg-gray-100 mr-10 w-[90vw] h-[90vh] outline-none">
@@ -109,8 +100,7 @@ export function QuestionDialogContent({
                   className="border-0"
                   onClick={() =>
                     handleSetCurrentId(
-                      questionnarieData.questions[currentIndexQuestion - 1]
-                        .questionId
+                      currentCard.questions[currentIndexQuestion - 1].questionId
                     )
                   }
                   disabled={currentIndexQuestion === 0}
@@ -124,8 +114,7 @@ export function QuestionDialogContent({
                   className="border-0"
                   onClick={() =>
                     handleSetCurrentId(
-                      questionnarieData.questions[currentIndexQuestion + 1]
-                        .questionId
+                      currentCard.questions[currentIndexQuestion + 1].questionId
                     )
                   }
                   disabled={currentIndexQuestion === maxIndex}
