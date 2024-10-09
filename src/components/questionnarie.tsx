@@ -30,6 +30,7 @@ export function Questionnarie() {
       (card: CardDataResponse) => card.id === cardId
     )
     setCurrentCard(selectedCard)
+    setIsDialogOpen(true)
   }
   function handleSetCurrentQuestionId(id: string) {
     setCurrentQuestionId(id)

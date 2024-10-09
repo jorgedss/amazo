@@ -15,6 +15,17 @@ interface QuestionDialogContentProps {
   currentCard: CardDataResponse
 }
 
+interface AnswerData {
+  questionId: string
+  answer: string
+  isVerified: boolean
+}
+
+interface ResultProps {
+  resultId: string
+  isCorrect: true | false
+}
+
 export function QuestionDialogContent({
   handleSetCurrentId,
   content,
@@ -22,25 +33,73 @@ export function QuestionDialogContent({
   currentCard,
 }: QuestionDialogContentProps) {
   const [selectedValue, setSelectedValue] = useState('')
+  const [userAnswers, setUserAnswers] = useState<AnswerData[]>([])
+  const [questionResult, setQuestionResult] = useState<ResultProps[]>([])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    // Resetar a seleção quando o conteúdo mudar
-    setSelectedValue('')
-  }, [content])
+    // Resetar a seleção quando o conteúdo mudar e atualizar com a resposta armazenada, se existir
+    const existingAnswer = userAnswers.find(
+      answer => answer.questionId === content?.questionId
+    )
+    setSelectedValue(existingAnswer ? existingAnswer.answer : '')
+  }, [content, userAnswers])
 
-  const handleSubmit = () => {
+  const handleSubmit = (questionId: string) => {
     if (selectedValue === content?.answer) {
-      alert('Correto!')
+      setQuestionResult(prevResult => {
+        return [...prevResult, { resultId: questionId, isCorrect: true }]
+      })
     } else {
-      alert(`Incorreto. A resposta certa é: ${content?.answer}`)
+      setQuestionResult(prevResult => {
+        return [...prevResult, { resultId: questionId, isCorrect: false }]
+      })
     }
+
+    setUserAnswers(prevAnswers => {
+      if (!content) {
+        return prevAnswers
+      }
+      const newAnswers = prevAnswers.filter(
+        answer => answer.questionId !== content?.questionId
+      )
+
+      return [
+        ...newAnswers,
+        {
+          questionId: content.questionId,
+          answer: selectedValue,
+          isVerified: true,
+        },
+      ]
+    })
   }
+  const isVerified = userAnswers.find(
+    answer => answer.questionId === content?.questionId && answer.isVerified
+  )
 
   const currentIndexQuestion = currentCard?.questions.findIndex(
     question => question.questionId === content?.questionId
   )
-  console.log(currentIndexQuestion)
+
+  function changeRadioItemStyle(option: string) {
+    if (!isVerified) {
+      return ''
+    }
+
+    const currentResult = questionResult.find(
+      result => result.resultId === content?.questionId
+    )
+
+    if (currentResult?.isCorrect && option === content?.answer) {
+      return 'text-emerald-500 border-2 border-emerald-600 bg-emerald-500'
+    }
+    if (!currentResult?.isCorrect && option === selectedValue) {
+      return 'text-rose-500 bg-rose-500 border-2 border-rose-600'
+    }
+    if (!currentResult?.isCorrect && option === content?.answer) {
+      return 'text-emerald-500 border-2 border-emerald-600 bg-emerald-500'
+    }
+  }
 
   return (
     <DialogContent className="bg-gray-100 mr-10 w-[90vw] h-[90vh] outline-none">
@@ -72,9 +131,10 @@ export function QuestionDialogContent({
                       className="border-2 hover:bg-zinc-200/80 pl-2 border-transparent hover:rounded-sm w-full h-14 text-justify text-lg"
                     >
                       <RadioGroupItem
+                        disabled={isVerified !== undefined}
                         value={option}
                         id={optionId}
-                        className="border-gray-300 mr-2 text-green-600"
+                        className={`border-gray-600 mr-2 text-foreground ${changeRadioItemStyle(option)}`}
                       />
                       <span>{option}</span>
                     </label>
@@ -85,10 +145,10 @@ export function QuestionDialogContent({
 
             <div className="flex justify-between items-center pl-2">
               <Button
-                onClick={handleSubmit}
+                onClick={() => handleSubmit(content.questionId)}
                 size="sm"
                 variant="generate"
-                disabled={!selectedValue} // Desabilita o botão até que uma opção seja selecionada
+                disabled={isVerified !== undefined} // Desabilita o botão até que uma opção seja selecionada
               >
                 Verificar Resposta
               </Button>
